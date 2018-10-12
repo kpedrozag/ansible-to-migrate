@@ -1,9 +1,9 @@
 ---
 # Handler to handle common notifications. Handlers are called by other plays.
 # See http://docs.ansible.com/playbooks_intro.html for more information about handlers.
-
 - name: restart ntp
-  service: name=ntpd state=restarted
+  service: name=ntp state=restarted
 
-- name: restart iptables
-  service: name=iptables state=restarted
+- name: force ntp update
+  shell: "service ntp stop && ntpdate -s {{ hostvars[groups[timelord][0]]['ansible_' ~ ntp_netdevice]['ipv4']['address'] }} && service ntp start"
+  when: ansible_hostname != timelord
