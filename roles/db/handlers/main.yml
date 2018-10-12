@@ -4,6 +4,5 @@
 - name: restart mysql
   service: name=mysql state=restarted
 
-# not edited
 - name: restart iptables
-  service: name=iptables state=restarted
+  shell: iptables-restore < /etc/iptables.conf

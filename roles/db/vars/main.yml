@@ -1,3 +1,4 @@
 dbname=mydb
 dbuser=myuser
 upassword=mypass
+mysql_port=3306

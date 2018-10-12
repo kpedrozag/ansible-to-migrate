@@ -23,17 +23,17 @@
 - name: Start MySQL service
   service: name=mysql state=started enabled=true
 
-# insert optables
+- name: Insert iptables rule
+  lineinfile: 
+    path: /etc/iptables/rules.v4
+    state: present 
+    regexp: "{{ mysql_port }}"
+    insertafter: "^:OUTPUT " 
+    line: "-A INPUT -p tcp  --dport {{ mysql_port }} -j  ACCEPT"
+  notify: restart iptables
 
 - name: Create Application Database
   mysql_db: name {{ dbname }} state=present
 
 - name: Create Application DB User
   mysql_user: name={{ dbuser }} password={{ upassword }} priv=*.*:ALL host='%' state=present
-
-
-
-- name: insert iptables rule
-  lineinfile: dest=/etc/sysconfig/iptables state=present regexp="{{ mysql_port }}"
-              insertafter="^:OUTPUT " line="-A INPUT -p tcp  --dport {{ mysql_port }} -j  ACCEPT"
-  notify: restart iptables

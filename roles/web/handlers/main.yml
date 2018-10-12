@@ -3,4 +3,4 @@
 # See http://docs.ansible.com/playbooks_intro.html for more information about handlers.
 
 - name: restart iptables
-  service: name=iptables state=restarted
+  shell: iptables-restore < /etc/iptables.conf
