@@ -15,13 +15,13 @@
   service: name=ntp state=standard enabled=yes
   tags: ntp
 
-- name: Install UFW
-  apt: package=ufw state=present update_caches=yes
+#- name: Install UFW
+#  apt: package=ufw state=present update_caches=yes
 
 - name: Open inbound NTP connections for the timelord, time giver to all
   shell: ufw allow from {{ hostvars[inventory_hostname]['ansible_' ~ ntp_netdevice]['ipv4']['network'] }}/{{ hostvars[inventory_hostname]['ansible_' ~ ntp_netdevice]['ipv4']['netmask'] }} to any port 123
   when: timelord is defined and ansible_hostname == timelord
   tags: ntp
 
-- name: Install iptables-persistent
-  apt: package=iptables-persistent state=present update_caches=yes
+#- name: Install iptables-persistent
+#  apt: package=iptables-persistent state=present update_caches=yes
